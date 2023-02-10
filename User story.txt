@@ -1,0 +1,16 @@
+User stories:
+
+As a user, I would like to be able to create, remove, and delete appliances.
+As a user, I would like to be able to set the yearly hour usage of appliance
+As a user, I would like to be able to set the priority
+As a user, I would like to be able to connect their car's data into the emission tracker
+As a user, I would like to be able to view their yearly emissions
+(Extra) As a user, I would like to be able to view a strategy, based on the priorities of user
+(Extra) As a user, I would like to be able to add cost-viewing capabilities to the tracker
+
+
+-- Extra with DB --
+(Extra) As a user, I would like to be able to log in ? Decide if necessary
+(Extra) As a user, I would like to be able to register ?
+(Extra) As a user, I would like to be able to save progress ? Format of data is questionable
+
