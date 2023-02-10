@@ -1,0 +1,8 @@
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\obj\Debug\Emission_Tracker.csproj.AssemblyReference.cache
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\obj\Debug\Emission_Tracker.csproj.SuggestedBindingRedirects.cache
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\obj\Debug\Emission_Tracker.csproj.CoreCompileInputs.cache
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\bin\Debug\Emission_Tracker.exe.config
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\bin\Debug\Emission_Tracker.exe
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\bin\Debug\Emission_Tracker.pdb
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\obj\Debug\Emission_Tracker.exe
+C:\Users\daksh\Projects\Emission_Tracker\Emission_Tracker\obj\Debug\Emission_Tracker.pdb
