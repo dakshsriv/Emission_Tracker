@@ -11,20 +11,29 @@ namespace Emission_Tracker
     {
         static void Main(string[] args)
         {
-            
+            Appliance[] appliances = new Appliance[20];
             string[] names = new string[20];
 
-            int option = getOptions();
-
-            switch (option)
+            Console.WriteLine("Welcome to the emission tracker!");
+            Console.WriteLine();
+            while (true)
             {
-                case 0:
-                    Console.WriteLine("Selected Create Appliance");
-                    createAppliance(names);
-                    break;
-            }
+                int option = getOptions();
 
-            Console.ReadLine(); 
+                switch (option)
+                {
+                    case 0:
+                        Console.WriteLine("Selected Create Appliance");
+                        Appliance newAppliance = createAppliance(names);
+                        appliances[Appliance.count] = newAppliance;
+                        break;
+                    case 1:
+                        Console.WriteLine("Selected Create Appliance");
+                        listAppliances(appliances);
+                        
+                        break;
+                }
+            }
         }
 
         static dynamic getOptions()
@@ -32,12 +41,12 @@ namespace Emission_Tracker
             bool optionSuccess = false;
             int option = 0;
 
-            Console.WriteLine("Welcome to the emission tracker!");
-            Console.WriteLine();
+            
             while (!optionSuccess)
             {
                 Console.WriteLine("Here are the options:");
                 Console.WriteLine("Option 0: Create an appliance");
+                Console.WriteLine("Option 1: View all appliances");
                 Console.Write("Enter an option: ");
                 try
                 {
@@ -52,6 +61,22 @@ namespace Emission_Tracker
 
             }
             return option;
+        }
+
+        static void listAppliances(Appliance[] appliances)
+        {
+            Console.WriteLine("Listing appliances: ");
+            for (int x = 0; x < appliances.Length-1; x++)
+            {
+                try
+                {
+                    Console.WriteLine("Appliance " + appliances[x].name + " consumes " + appliances[x].consumption + " Watts, and is used for " + appliances[x].usage + " hours each year.");
+                }
+                catch
+                {
+                    continue;
+                }
+            }
         }
 
         static Appliance createAppliance(string[] names)
@@ -83,13 +108,13 @@ namespace Emission_Tracker
                 {
                     continue;
                 }
-                names.Append(name);
+                names[Appliance.count+1] = name;
                 createSuccess = true;
 
             }
             appliance = new Appliance(name, consumption, usage);
 
-            Console.WriteLine("You entered: " + name + " " + consumption + " " + usage);
+            Console.WriteLine("You entered: " + appliance.name + " " + appliance.consumption + " " + appliance.usage);
 
             return appliance;
         }
