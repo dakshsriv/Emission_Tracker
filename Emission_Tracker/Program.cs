@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Emission_Tracker
 {
@@ -24,13 +25,41 @@ namespace Emission_Tracker
                 {
                     case 0:
                         Console.WriteLine("Selected Create Appliance");
-                        Appliance newAppliance = createAppliance(names);
+                        Appliance newAppliance = createAppliance(appliances, names);
                         appliances[Appliance.count] = newAppliance;
                         break;
                     case 1:
-                        Console.WriteLine("Selected Create Appliance");
+                        Console.WriteLine("Selected List Appliances");
                         listAppliances(appliances);
-                        
+                        break;
+                    case 2:
+                        Console.WriteLine("Selected Update Appliance");
+                        Console.Write("What is the name of the appliance you want to change: ");
+                        string name = Console.ReadLine();
+
+                        if (Array.IndexOf(names, name) == -1)
+                        {
+                            Console.WriteLine("Invalid name");
+                            break;
+                        }
+                        int x = Array.IndexOf(names, name);
+                        Appliance updatedAppliance = updateAppliance(appliances, names, name, x);
+                        names[x] = updatedAppliance.name;
+                        appliances[x] = updatedAppliance;
+                        break;
+                    case 3:
+                        Console.WriteLine("Selected Delete Appliance");
+                        Console.Write("What is the name of the appliance you want to delete: ");
+                        string deleteName = Console.ReadLine();
+
+                        if (Array.IndexOf(names, deleteName) == -1)
+                        {
+                            Console.WriteLine("Invalid name");
+                            break;
+                        }
+                        int y = Array.IndexOf(names, deleteName);
+                        names[y] = "";
+                        appliances[y] = null;
                         break;
                 }
             }
@@ -47,6 +76,9 @@ namespace Emission_Tracker
                 Console.WriteLine("Here are the options:");
                 Console.WriteLine("Option 0: Create an appliance");
                 Console.WriteLine("Option 1: View all appliances");
+                Console.WriteLine("Option 2: Update an appliance");
+                Console.WriteLine("Option 3: Delete an appliance");
+
                 Console.Write("Enter an option: ");
                 try
                 {
@@ -79,7 +111,55 @@ namespace Emission_Tracker
             }
         }
 
-        static Appliance createAppliance(string[] names)
+
+        static Appliance updateAppliance(Appliance[] appliances, string[] names, string name, int x)
+        {
+            string newName = "";
+            int newConsumption = 0; // In watts
+            int newUsage = 0; // In hours
+            bool newUpdateSuccess = false;
+
+            Appliance newAppliance;
+            int applianceIndex = 0;
+
+
+            newName = appliances[x].name;
+            newConsumption = appliances[x].consumption;
+            newUsage = appliances[x].usage;
+            applianceIndex = x;
+                    
+            while (!newUpdateSuccess)
+            {
+                try
+                {
+                    Console.Write("Enter Appliance Name: ");
+                    newName = Console.ReadLine();
+                    Console.Write("Enter appliance consumption (in Watts): ");
+                    newConsumption = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Enter appliance usage (in hours per year): ");
+                    newUsage = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid response");
+                    continue;
+                }
+                if (Array.IndexOf(names, newName) != -1)
+                {
+                    continue;
+                }
+                names[applianceIndex] = name;
+                newUpdateSuccess = true;
+
+            }
+            newAppliance = new Appliance(newName, newConsumption, newUsage);
+
+            Console.WriteLine("You entered: " + newAppliance.name + " " + newAppliance.consumption + " " + newAppliance.usage);
+
+            return newAppliance;
+        }
+
+        static Appliance createAppliance(Appliance[] appliances, string[] names)
         {
             string name = "";
             int consumption = 0; // In watts
