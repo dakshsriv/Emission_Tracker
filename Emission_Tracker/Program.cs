@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +16,8 @@ namespace Emission_Tracker
         {
             Appliance[] appliances = new Appliance[20];
             string[] names = new string[20];
+            int rate = 0;
+            int num = 0;
 
             Console.WriteLine("Welcome to the emission tracker!");
             Console.WriteLine();
@@ -27,6 +31,7 @@ namespace Emission_Tracker
                         Console.WriteLine("Selected Create Appliance");
                         Appliance newAppliance = createAppliance(appliances, names);
                         appliances[Appliance.count] = newAppliance;
+                        num++;
                         break;
                     case 1:
                         Console.WriteLine("Selected List Appliances");
@@ -61,8 +66,31 @@ namespace Emission_Tracker
                         names[y] = "";
                         appliances[y] = null;
                         break;
+                    case 4:
+                        Console.WriteLine("Selected set carbon emission rates");
+                        Console.Write("What is the carbon emission rate (in CO2e per kWh): ");
+                        rate = Convert.ToInt32(Console.ReadLine());
+                        break;
+                    case 5:
+                        Console.WriteLine("Selected calculate carbon emissions");
+                        calculate(appliances, rate, num);
+                        break;
                 }
             }
+        }
+
+        static void calculate(Appliance[] appliances, int rate, int num)
+        {
+            int emissions = 0;
+            for (int x = 0; x < num; x++)
+            {
+                
+                Appliance appl = appliances[x];
+                
+                emissions += appl.consumption * appl.usage;
+            }
+            emissions *= 1000 * rate;
+            Console.WriteLine("Each year, you emit " + emissions + " tonnes of CO2e.");
         }
 
         static dynamic getOptions()
@@ -78,6 +106,8 @@ namespace Emission_Tracker
                 Console.WriteLine("Option 1: View all appliances");
                 Console.WriteLine("Option 2: Update an appliance");
                 Console.WriteLine("Option 3: Delete an appliance");
+                Console.WriteLine("Option 4: Set carbon emission rates");
+                Console.WriteLine("Option 5: Calculate carbon emissions");
 
                 Console.Write("Enter an option: ");
                 try
@@ -102,7 +132,7 @@ namespace Emission_Tracker
             {
                 try
                 {
-                    Console.WriteLine("Appliance " + appliances[x].name + " consumes " + appliances[x].consumption + " Watts, and is used for " + appliances[x].usage + " hours each year.");
+                    Console.WriteLine("Appliance " + appliances[x].name + " consumes " + appliances[x].consumption + " Watts, and is used for " + appliances[x].usage + " hours each year. It has a priority of " + appliances[x].Priority);
                 }
                 catch
                 {
@@ -127,6 +157,8 @@ namespace Emission_Tracker
             newConsumption = appliances[x].consumption;
             newUsage = appliances[x].usage;
             applianceIndex = x;
+
+            int priority = 4;
                     
             while (!newUpdateSuccess)
             {
@@ -138,6 +170,8 @@ namespace Emission_Tracker
                     newConsumption = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Enter appliance usage (in hours per year): ");
                     newUsage = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Enter appliance priority: ");
+                    priority = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
                 {
@@ -152,7 +186,7 @@ namespace Emission_Tracker
                 newUpdateSuccess = true;
 
             }
-            newAppliance = new Appliance(newName, newConsumption, newUsage);
+            newAppliance = new Appliance(newName, newConsumption, newUsage, priority);
 
             Console.WriteLine("You entered: " + newAppliance.name + " " + newAppliance.consumption + " " + newAppliance.usage);
 
@@ -166,6 +200,8 @@ namespace Emission_Tracker
             int usage = 0; // In hours
             bool createSuccess = false;
 
+            int priority = 4;
+
             Appliance appliance;
 
             while (!createSuccess)
@@ -178,6 +214,8 @@ namespace Emission_Tracker
                     consumption = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Enter appliance usage (in hours per year): ");
                     usage = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Enter appliance priority: ");
+                    priority = Convert.ToInt32(Console.ReadLine());
                 }
                 catch
                 {
@@ -192,7 +230,7 @@ namespace Emission_Tracker
                 createSuccess = true;
 
             }
-            appliance = new Appliance(name, consumption, usage);
+            appliance = new Appliance(name, consumption, usage, priority);
 
             Console.WriteLine("You entered: " + appliance.name + " " + appliance.consumption + " " + appliance.usage);
 
